@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Flow - Uploader
+{% endblock %}
+
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/codemirror.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/monokai.css') }}">
+<style type="text/css">
+    .codeBox {
+        margin: 8px 0 8px 0;
+    }
+
+    .CodeMirror {
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Head -->
+        <div class="twelve columns">
+            <h1>Flow - Uploader</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Form -->
+        <form id="code_load" action="/visualize/" method="post" enctype="multipart/form-data">
+            <div class="row codeBox">
+                <label for="codeBlock">Paste/Edit Python Code</label>
+                <textarea class="u-full-width" id="codeBlock" name="pycode"></textarea>
+            </div>
+            <input class="button-primary" type="submit" value="Visualize!"/>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/codemirror.js') }}"></script>
+<script src="{{ url_for('static', filename='js/python.js') }}"></script>
+
+<script>
+    var c = CodeMirror.fromTextArea(document.getElementById("codeBlock"), {
+        lineNumbers: true,
+        indentUnit: 4,
+        theme: "monokai",
+        extraKeys: {
+            Tab: function(cm) {
+                var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                cm.replaceSelection(spaces, "end", "+input");
+            }
+        }
+    });
+
+    c.setValue({% if example %}{{ example|safe }}{% endif %});
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+Flow - Visualizer
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .node {
+        font: sans-serif;
+        fill: black;
+    }
+    .node text.normal {
+        fill: black;
+    }
+    .node text.active {
+        fill: blue;
+    }
+    .node text.source {
+        fill: red;
+    }
+    .node text.target {
+        fill: orange;
+    }
+    .node text {
+        stroke-width: 0.5px;
+    }
+    .link {
+        stroke: #4DA6FE;
+        stroke-opacity: .3;
+        stroke-width: 1px;
+        fill: none;
+    }
+    .link.source {
+        stroke: orange;
+        stroke-opacity: .9;
+    }
+    .link.target {
+        stroke: red;
+        stroke-opacity: .7;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Head -->
+        <div class="twelve columns">
+            <h1>Flow - Visualizer</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="twelve columns">
+            <div id="graph" style="height:auto; width:auto;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript">
+        var data = {{ data|safe }};
+    </script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="{{ url_for('static', filename='js/render.js') }}"></script>
+{% endblock %}
